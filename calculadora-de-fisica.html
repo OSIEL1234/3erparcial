@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="footers.css">
+    <title>Fisica</title>
+</head>
+
+<body style="color: orangered;">
+    <div style="margin: 24px;">
+        <nav class="navbar navbar-inverse navbar-stick-static-top">
+          <div class="container">
+            <ul class="nav navbar-nav">
+              <li>
+                <a href="index.html">inicio</a>
+                </li>
+                <li>
+                <a href="menu.html">menu</a>
+                </li>
+                <li>
+                <a href="pedido.html">pedido</a>
+                </li>
+                <li>
+                <a href="contacto.html">contacto</a>
+                </li>
+              <li>
+                <a href="api-movies.html">Apimovies</a>
+              </li>
+              <li>
+                <a href="calculadora.html">Calculadora</a>
+              </li>
+              <li>
+                <a href="calculadora-de-fisica.html">Calculadora de Física</a>
+              </li>
+              <li>
+                <a href="perfil.html">Perfil</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        
+        <div class="jumbotron">
+            <center>
+                <h1 class="display-4">CALCULADORA FISICA 1</h1>
+            </center>
+            <p class="lead">La teoría de la física consiste en los conceptos físicos basados en los trabajos
+                fundacionales de Sir Isaac Newton, y en los métodos matemáticos inventados por Gottfried Wilhelm
+                Leibniz, Joseph-Louis Lagrange, Leonhard Euler, y otros contemporáneos, en el siglo XVII para describir
+                el movimiento de los cuerpos físicos bajo la influencia de un sistema de fuerzas</p>
+
+            <form id="formulario">
+                <label for="distancia">Distancia:</label>
+                <input type="text" id="distancia" name="distancia">
+                <select id="distanciaUnidad">
+                    <option value="metros" style="color: #7AD063">metros</option>
+                    <option value="pies">pies</option>
+                </select>
+                <br>
+                <label for="tiempo">Tiempo:</label>
+                <input type="text" id="tiempo" name="tiempo">
+                <select id="tiempoUnidad">
+                    <option value="segundos">segundos</option>
+                    <option value="horas">horas</option>
+                </select>
+                <br>
+
+                <label for="velocidadUnidad">Unidades de Velocidad:</label>
+                <select id="velocidadUnidad">
+                    <option value="metros_por_segundo">m/s</option>
+                    <option value="pies_por_segundo">ft/s</option>
+                    <option value="kilometros_por_segundo">km/s</option>
+                    <option value="millas_por_segundo">mph/s</option>
+                </select>
+                <br>
+                <br>
+                <button type="button" value="Calcular" onclick="Calcular()" class="btn btn-success">Calcular</button>
+            </form>
+            <br>
+            <p id="resultado"></p>
+            <p style="color: black; background-color: red" ;>Velocidad: <span
+                    id="velocidad"></span></p>
+            <p style="color: black; background-color: blue">Aceleracion: <span
+                    id="aceleracion"></span></p>
+            <p style="color: black; background-color: green">Rapidez: <span
+                    id="rapidez"></span></p>
+        </div>
+        <script>
+            function Calcular() {
+                //obtener los valores del formulario
+                const distancia = parseFloat(document.getElementById('distancia').value);
+                const tiempo = parseFloat(document.getElementById('tiempo').value);
+                const distanciaUnidad = document.getElementById('distanciaUnidad').value;
+                const tiempoUnidad = document.getElementById('tiempoUnidad').value;
+                const velocidadUnidad = document.getElementById('velocidadUnidad').value;
+                //convertir unidades a sistema metrico(SI)
+
+                let distanciaSI = 0;
+                let tiempoSI = 0;
+                if (distanciaUnidad === 'metros') {
+                    distanciaSI = distancia;
+                }
+                else if (distanciaUnidad === 'pies') {
+                    distanciaSI = distancia / 3.281;
+                }
+
+
+                if (tiempoUnidad === 'segundos') {
+                    tiempoSI = tiempo;
+                }
+                else if (tiempoUnidad === 'horas') {
+                    tiempoSI = tiempo * 3600;
+                }
+
+                //Calcular la velocidad, la aceleracion y rapidez
+                let velocidad = 0;
+                let aceleracion = 0;
+                let rapidz = 0;
+                if (velocidadUnidad === 'metros_por_segundo') {
+                    velocidad = distanciaSI / tiempoSI;
+                    rapidez = velocidad; //esta no es la formula
+                    aceleracion = velocidad / tiempoSI;
+                }
+                else if (velocidadUnidad === 'pies_por_segundo') {
+                    velocidad = (distancia * 3.281) / tiempoSI;
+                    rapidez = velocidad;//esta no es la formula
+                    aceleracion = velocidad / tiempoSI;
+                }
+                else if (velocidadUnidad === 'kilometros_por_hora') {
+                    velocidad = (distancia * 1000) / (tiempoSI / 3600);
+                    rapidez = velocidad;//esta no es la formula
+                    aceleracion = velocidad / tiempoSI;
+                }
+                else if (velocidadUnidad === 'millas_por_hora') {
+                    velocidad = (distancia * 1609) / (tiempoSI / 3600);
+                    rapidez = velocidad;//esta no es la formula
+                    aceleracion = velocidad / tiempoSI;
+                }
+                //mostrar resultados
+                let resultado = '';
+                document.getElementById('velocidad').textContent = velocidad.toFixed(2) + ' ' + velocidadUnidad;
+                document.getElementById('aceleracion').textContent = aceleracion.toFixed(2) + ' ' + velocidadUnidad;
+                document.getElementById('rapidez').textContent = rapidez.toFixed(2) + ' ' + velocidadUnidad;
+
+                document.getElementById('resultado').innerHTML = resultado;
+            }
+        </script>
+
+<center>
+    <footer>
+        <div class="copyrigth">
+            <p>&copy;<span id="year">Derechos reservados.</span></p>
+
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+            <a href="perfil.html">Contactame</a>
+            <h2>Contactame</h2>
+            <p>Si estas interesado en contactarme, puedes hacerlo a travez de cualquiera de las siguientes redes sociales.</p>
+            <p>Podras contactarme en cualquiera de estas apps:</p>
+            <p>Agregando solo un poco mas de informacion para que el texto se vea mucho mas ya que no se que mas agregarle...</p>
+            <div class="contact-links">
+            <a href="https://es-la.facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://twitter.com/?lang=es" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://discord.com/" target="_blank"><i class="fab fa-discord"></i></a>
+            <a href="https://www.twitch.tv/" target="_blank"><i class="fab fa-twitch"></i></a>
+            </div>
+        </div>
+    </footer>
+</center>
+
+<style>
+ footer{
+        background-color: rgb(19, 107, 167);
+        color: aliceblue;
+        padding: 30px 0;
+    }
+    .container{
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    .footer-content{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .footer-section{
+    width: 100%;
+    padding: 2px;
+    box-sizing: border-box;
+    }
+    .about{
+    text-align: center;
+    }
+    .about h2{
+        margin-bottom: 20px;
+    }
+    .about p{
+        font-size: 18px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+    }
+    .contact-links{
+        display: flex;
+        justify-content: center;
+    }
+    .contact-links a{
+        display: inline-block;
+        color: bisque;
+        font-size: 24px;
+        margin: 0 10px;
+        transition: all 0.3s ease;
+    }
+    .contact-links a:hover{
+        transform: translateY(-5px);
+    }
+    </style>
+</body>
+
+</html>
